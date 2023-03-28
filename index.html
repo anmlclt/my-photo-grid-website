@@ -4,23 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDkwbpdPwNq3oshSxAGm-ND8BThr7jTH08",
-  authDomain: "pope-2717e.firebaseapp.com",
-  projectId: "pope-2717e",
-  storageBucket: "pope-2717e.appspot.com",
-  messagingSenderId: "512328446563",
-  appId: "1:512328446563:web:e323574aeeebe5ffc5be56"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
   <title>Photo Grid</title>
 </head>
 <body>
@@ -41,6 +24,28 @@ const app = initializeApp(firebaseConfig);
     <span class="close">&times;</span>
     <img class="modal-content" id="modal-image">
   </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.9/firebase-storage.js"></script>
+  <script>
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "firebase/app";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDkwbpdPwNq3oshSxAGm-ND8BThr7jTH08",
+      authDomain: "pope-2717e.firebaseapp.com",
+      projectId: "pope-2717e",
+      storageBucket: "pope-2717e.appspot.com",
+      messagingSenderId: "512328446563",
+      appId: "1:512328446563:web:e323574aeeebe5ffc5be56"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
 
   <script>
     function openModal(imageSrc) {
@@ -76,53 +81,55 @@ const app = initializeApp(firebaseConfig);
       document.getElementById('photo-url').value = '';
     });
   </script>
-<script>
-  function addImageToGrid(imageUrl) {
-    const grid = document.getElementById('photo-grid');
-    const photoDiv = document.createElement('div');
-    photoDiv.classList.add('photo');
-    
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.addEventListener('click', function() {
-      const modal = document.getElementById('photo-modal');
-      const modalImg = document.getElementById('modal-img');
-      modal.style.display = 'block';
-      modalImg.src = imageUrl;
-    });
-    
-    photoDiv.appendChild(img);
-    grid.appendChild(photoDiv);
-  }
 
-  function loadImages() {
-    const images = JSON.parse(localStorage.getItem('images')) || [];
-    images.forEach(imageUrl => {
-      addImageToGrid(imageUrl);
-    });
-  }
+  <script>
+    function addImageToGrid(imageUrl) {
+      const grid = document.getElementById('photo-grid');
+      const photoDiv = document.createElement('div');
+      photoDiv.classList.add('      photoDiv.classList.add('photo');
 
-  function saveImage(imageUrl) {
-    const images = JSON.parse(localStorage.getItem('images')) || [];
-    images.unshift(imageUrl);
-    localStorage.setItem('images', JSON.stringify(images));
-  }
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.addEventListener('click', function () {
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-image');
+        modal.style.display = 'block';
+        modalImg.src = imageUrl;
+      });
 
-  document.getElementById('photo-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const photoUrl = document.getElementById('photo-url').value;
-    addImageToGrid(photoUrl);
-    saveImage(photoUrl);
-  });
-
-  // Close the modal when the user clicks outside the image
-  document.getElementById('photo-modal').addEventListener('click', function(event) {
-    if (event.target === event.currentTarget) {
-      event.target.style.display = 'none';
+      photoDiv.appendChild(img);
+      grid.appendChild(photoDiv);
     }
-  });
 
-  loadImages();
-</script>
+    function loadImages() {
+      const images = JSON.parse(localStorage.getItem('images')) || [];
+      images.forEach((imageUrl) => {
+        addImageToGrid(imageUrl);
+      });
+    }
+
+    function saveImage(imageUrl) {
+      const images = JSON.parse(localStorage.getItem('images')) || [];
+      images.unshift(imageUrl);
+      localStorage.setItem('images', JSON.stringify(images));
+    }
+
+    document.getElementById('photo-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const photoUrl = document.getElementById('photo-url').value;
+      addImageToGrid(photoUrl);
+      saveImage(photoUrl);
+    });
+
+    // Close the modal when the user clicks outside the image
+    document.getElementById('modal').addEventListener('click', function (event) {
+      if (event.target === event.currentTarget) {
+        event.target.style.display = 'none';
+      }
+    });
+
+    loadImages();
+  </script>
 </body>
 </html>
+
