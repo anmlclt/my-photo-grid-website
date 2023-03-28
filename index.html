@@ -130,6 +130,39 @@
 
     loadImages();
   </script>
+  // Import the required functions
+import { getDatabase, ref, set, onValue } from "firebase/database";
+
+// Get a reference to the Firebase Realtime Database
+const db = getDatabase(app);
+
+// Save an image URL to Firebase
+function saveImage(imageUrl) {
+  const imagesRef = ref(db, 'images/');
+  set(imagesRef.push(), imageUrl);
+}
+
+// Load images from Firebase
+function loadImages() {
+  const imagesRef = ref(db, 'images/');
+  onValue(imagesRef, (snapshot) => {
+    const imagesData = snapshot.val();
+    for (const key in imagesData) {
+      addImageToGrid(imagesData[key]);
+    }
+  });
+}
+
+// Update the event listener for the form submission
+document.getElementById('photo-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  const photoUrl = document.getElementById('photo-url').value;
+  addImageToGrid(photoUrl);
+  saveImage(photoUrl);
+});
+
+loadImages();
+
 </body>
 </html>
 
