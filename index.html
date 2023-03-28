@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Photo Grid</title>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Pope Fashion</h1>
+    <form class="photo-form" id="photo-form">
+      <input type="url" id="photo-url" placeholder="Image URL" required>
+      <button type="submit">Submit Photo</button>
+    </form>
+
+    <div class="grid" id="photo-grid">
+      <!-- Add photo wrappers here as in the previous example -->
+    </div>
+  </div>
+
+  <div id="modal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-image">
+  </div>
+
+  <script>
+    function openModal(imageSrc) {
+      document.getElementById('modal-image').src = imageSrc;
+      document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    document.getElementById('photo-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const photoUrl = document.getElementById('photo-url').value;
+
+      const photoWrapper = document.createElement('div');
+      photoWrapper.className = 'photo-wrapper';
+      photoWrapper.onclick = function () { openModal(photoUrl); };
+
+      const photo = document.createElement('img');
+      photo.src = photoUrl;
+      photo.alt = 'New Photo';
+      photo.className = 'photo';
+
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+
+      photoWrapper.appendChild(photo);
+      photoWrapper.appendChild(overlay);
+      document.getElementById('photo-grid').prepend(photoWrapper);
+
+      // Clear the input field
+      document.getElementById('photo-url').value = '';
+    });
+  </script>
+</body>
+</html>
